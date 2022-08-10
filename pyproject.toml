@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "hass-the-token"
+version = "1.0.0"
+description = ""
+authors = ["gwisp2 <60121533+gwisp2@users.noreply.github.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+homeassistant = "^2022.8.3"
+
+[tool.poetry.dev-dependencies]
+pyright = "^1.1.266"
+black = "^22.6.0"
+isort = "^5.10.1"
+poethepoet = "^0.16.0"
+pylint = "^2.14.5"
+
+[tool.pyright]
+include = ["custom_components/the_token"]
+exclude = ["**/__pycache__"]
+
+[tool.isort]
+profile = "black"
+
+[tool.poe.tasks]
+format = "black custom_components/the_token && isort custom_components/the_token"
+lint = "pylint custom_components/the_token"
+test = "pyright"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

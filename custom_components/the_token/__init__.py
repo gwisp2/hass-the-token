@@ -1,11 +1,14 @@
 import logging
 from datetime import datetime, timedelta
-from typing import Coroutine, Optional
+from typing import  Optional
 
 import jwt
 import voluptuous as vol
-from homeassistant.auth.models import (TOKEN_TYPE_LONG_LIVED_ACCESS_TOKEN,
-                                       RefreshToken, User)
+from homeassistant.auth.models import (
+    TOKEN_TYPE_LONG_LIVED_ACCESS_TOKEN,
+    RefreshToken,
+    User,
+)
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import config_validation as cv
 
@@ -72,13 +75,13 @@ def generate_and_print_access_token(refresh_token: RefreshToken):
 
 async def find_user(
     hass: HomeAssistant, suggested_user_name: Optional[str] = None
-) -> Coroutine[None, None, User]:
+) -> Optional[None]:
     # Find user entry in auth providers.
     # If a user didn't login before [for example, if it was added via hass --script auth add]
     # then the user was not actually created so we can't use hass.auth._store.async_get_users().
     provider = hass.auth.auth_providers[0]
     await provider.async_initialize()
-    usernames = set([u["username"] for u in provider.data.users])
+    usernames = {u["username"] for u in provider.data.users}
     if suggested_user_name is not None:
         if suggested_user_name in usernames:
             username = suggested_user_name
@@ -109,13 +112,12 @@ async def find_user(
 
 async def async_setup(hass: HomeAssistant, hass_config):
     component_config = hass_config[DOMAIN]
-    
+
     user = await find_user(hass, component_config.get("username"))
     if user is None:
         _LOGGER.error("No user could be selected for creating a token")
         return False
-    else:
-        _LOGGER.info("User %s is chosen to create a token", user.name)
+    _LOGGER.info("User %s is chosen to create a token", user.name)
 
     refresh_token_id = component_config["refresh_token_id"]
     refresh_token = user.refresh_tokens.get(refresh_token_id)
