@@ -4,7 +4,7 @@
     "documentation": "https://github.com/gwisp2/hass-the-token",
     "domain": "the_token",
     "issue_tracker": "https://github.com/gwisp2/hass-the-token/issues",
-    "name": "The Token",
+    "name": "TheToken",
     "requirements": [],
     "version": "1.0.0"
 }
