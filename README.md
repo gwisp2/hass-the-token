@@ -31,6 +31,7 @@ That JWT depends on:
 1. Refresh token id
 2. Access token creation instant `*`
 3. Access token expiration instant `*`
+4. JWT key used to sign the token
 
 `*` Creation and expiration instants for access and refresh tokens may be different. However, to achieve deterministic access tokens, TheToken uses refresh token creation/expiration instant. Also, a refresh token creation instant is fixed, by default it is 2022-01-01 00:00:00 UTC.
 
